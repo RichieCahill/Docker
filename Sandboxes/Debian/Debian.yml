@@ -1,0 +1,17 @@
+---
+version: "3.0"
+services:
+  debian:
+    build: .
+    container_name: debian
+    environment:
+      - TZ=America/New_York
+    ports:
+      - 22:22
+    volumes:
+      - /ZFS/Torenting/Mirror/:/data
+    restart: unless-stopped
+
+  debian:
+    build: .
+    image: themadmaker2/debian:latest  # goes to your repository on Docker Hub
