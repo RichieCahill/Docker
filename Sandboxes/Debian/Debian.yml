@@ -9,9 +9,6 @@ services:
     ports:
       - 22:22
     volumes:
-      - /ZFS/Torenting/Mirror/:/data
+      - /home/r2r0m0c0/:/data
+    hostname: Debian-Sandboxes
     restart: unless-stopped
-
-  debian:
-    build: .
-    image: themadmaker2/debian:latest  # goes to your repository on Docker Hub

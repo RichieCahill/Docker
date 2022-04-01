@@ -2,17 +2,22 @@ FROM debian:11
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-WORKDIR /root
+WORKDIR /home/r2r0m0c0
 
 RUN echo "Updating" && \
 apt update && apt upgrade -y
 
 RUN echo "installing pacages" && \
-apt install -y zsh iputils-ping iproute2 zsh less curl wget \
-git nano neovim smartmontools apt-transport-https htop tmux
+apt install -y zsh iputils-ping iproute2 less curl wget \
+git nano neovim smartmontools apt-transport-https htop tmux ssh sudo
 
 COPY ./home .
 
-# RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+COPY ./Secret/ /config/Secret
+ADD User.sh /config/User.sh
+RUN /config/User.sh
+RUN cp -r /config/Secret/ssh /etc/ssh
 
-CMD tail -f /dev/null
+EXPOSE 22
+
+CMD service ssh start && tail -f /dev/null
