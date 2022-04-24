@@ -6,7 +6,8 @@ COPY etc /etc/
 
 RUN pacman-key --init && \
 pacman -Syu --noconfirm && \
-pacman -Syu --noconfirm --needed base-devel git curl wget nano neovim tar zsh openssh tmux btop
+pacman -S --noconfirm --needed base-devel git curl wget nano neovim tar zsh openssh tmux btop && \
+pacman -S --noconfirm metasploit
 
 # RUN pacman -Syu --noconfirm --needed 
 

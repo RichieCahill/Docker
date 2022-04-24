@@ -1,0 +1,12 @@
+---
+version: "3.0"
+services:
+  file_server:
+    build: .
+    container_name: file_server
+    ports:
+      - 8000:80
+    hostname: Arch-Sandboxes
+    volumes:
+      - /ZFS/Storage/Main/Table_Top/:/data
+    restart: unless-stopped
