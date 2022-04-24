@@ -1,0 +1,163 @@
+
+
+frontend stats
+   timeout client 5000ms
+   bind 127.0.0.1:1936
+   mode http
+   stats enable
+   stats hide-version
+   stats realm Haproxy\ Statistics
+   stats uri /
+   stats auth USER:PASS #For any smart ones out there, i have a script change the values. Hope you feel proud of yourself.
+
+backend node-backend
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 5000ms
+    mode http
+    server main 192.168.1.11:9001 check
+    server backup 192.168.88.243:9001 check
+    
+backend bt
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.17:9091 check
+    
+backend nanopi
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.16:9002 check
+    
+backend rhs
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.16:9005 check
+    
+backend music
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.16:9003 check
+    
+backend proxy
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.13:8080 check
+    
+backend omv
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.17:80 check
+    
+backend router
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.1:8080
+    
+backend ap
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.2:80
+    
+backend stats-backend
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 127.0.0.1:1936 check
+    
+backend riotwebdev
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.16:9011 check
+    
+backend tent
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.16:9009 check
+    
+backend n8d
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 5000ms
+    mode http
+    server main 192.168.1.23:8080 check
+	
+backend robotics
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 5000ms
+    mode http
+    server main 192.168.1.16:9012 check
+    
+backend omen
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 50000ms
+    mode http
+    server main 192.168.1.31:3000
+  
+userlist proxylist
+    user nano insecure-password PASS
+
+frontend http-in
+    bind *:80
+    timeout client 50000ms
+    mode http
+    
+    acl host_ddns hdr(host) -i nanopi.ddns.net
+    acl host_riotwebdev hdr(host) -i riotwebdev.ga
+    acl host_tent hdr(host) -i redtent.nated.ml
+    acl host_n8d hdr(host) -i nated.ml
+	acl host_robotics hdr(host) -i robotics.nated.ml
+    acl host_omen hdr(host) -i omen.nated.ml
+    
+    use_backend node-backend if host_ddns
+    use_backend riotwebdev if host_riotwebdev
+    use_backend n8d if host_n8d
+    use_backend tent if host_tent
+	use_backend robotics if host_robotics
+    use_backend omen if host_omen
+    
+    default_backend tent
+    
+backend local_ssh
+    balance roundrobin
+    timeout connect 5000ms
+    timeout server 2hr
+    mode tcp
+    server main 127.0.0.1:22 check
+   
+
+frontend https
+    bind *:443
+    timeout client 50000ms
+    mode tcp
+    
+    use_backend local_ssh
+    
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
