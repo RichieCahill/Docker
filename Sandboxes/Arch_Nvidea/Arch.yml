@@ -10,6 +10,7 @@ services:
       - 22:22
     volumes:
       - /home/r2r0m0c0/:/data
+      - /ZFS/:/ZFS
     hostname: Arch-Sandboxes
     restart: unless-stopped
     deploy:
