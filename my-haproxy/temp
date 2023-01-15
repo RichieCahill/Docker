@@ -1,9 +1,0 @@
-
-	acl host_dnd hdr(host) -i dnd.tmmworkshop.com
-
-	use_backend dnd if host_dnd
-
-backend dnd
-  mode http
-  server server1 foundryvtt:5000
-
