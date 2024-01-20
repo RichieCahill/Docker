@@ -1,0 +1,42 @@
+---
+version: "3"
+secrets:
+  config_json:
+    file: secrets.json
+services:
+  arch_mirror:
+    build: /ZFS/Main/Docker/arch_mirror/
+    container_name: arch_mirror
+    environment:
+      - TZ=Etc/EST
+    ports:
+      - 800:80
+      - 873:873
+    volumes:
+      - /ZFS/Main/Mirror/:/data
+      - /ZFS/Main/Docker/arch_mirror:/config
+    restart: unless-stopped
+  haproxy:
+    image: haproxy:latest
+    container_name: Haproxy
+    user: "998:998"
+    environment:
+      - TZ=Etc/EST
+    ulimits:
+      nofile:
+        soft: 4096
+        hard: 4096
+    volumes:
+      - /ZFS/Main/Docker/Haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
+      - /ZFS/Main/Docker/Haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - /ZFS/Main/Docker/Haproxy/API:/run/haproxy/
+    depends_on:
+      - arch_mirror
+    restart: unless-stopped
+  cloudflaretunnel:
+    container_name: CloudFlareTunnel
+    image: cloudflare/cloudflared:latest
+    command: tunnel run --token secret
+    depends_on:
+      - haproxy
+    restart: unless-stopped
