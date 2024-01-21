@@ -1,3 +1,4 @@
+# Multi line secret ma not work in the gihthub actions vscode interface
 on:
   push:
     branches:
@@ -31,4 +32,5 @@ jobs:
           host: ${{ secrets.JEEVES_JR_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
           script: ls
