@@ -5,7 +5,6 @@ import re
 from os import environ
 from pathlib import Path
 from subprocess import run
-from typing import cast
 
 
 def create_env_file(env_var_data: dict[str, str], env_path: Path) -> None:
@@ -46,7 +45,7 @@ def docker_compose_up(path: str) -> None:
     logging.info(f"Running docker compose up with path: {path}")
 
     output, returncode = run_command(f"docker compose -f {path} up --force-recreate --build -d")
-    logging.debug(f"docker compose up output: {output} returncode: {returncode} returncode: {returncode}")
+    logging.debug(f"docker compose up output: {output} returncode: {returncode}")
 
     if returncode != 0:
         error = f"docker compose up failed with return code: {returncode} and output: {output}"
@@ -101,11 +100,11 @@ def main() -> None:
     )
 
     parser = argparse.ArgumentParser(description="Docker Update")
-    parser.add_argument("--machine_name", help="Machine name")
+    parser.add_argument("--machine_name", help="Machine name", required=True, type=str)
 
     args = parser.parse_args()
 
-    machine_name = cast(str, args.machine_name)
+    machine_name: str = args.machine_name
 
     logging.info(f"Starting docker update for {machine_name}")
 
