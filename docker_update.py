@@ -85,7 +85,7 @@ def jeeves_jr_update() -> None:
 
     create_env_file(
         env_var_data={"TUNNEL_TOKEN": environ["TUNNEL_TOKEN"]},
-        env_path=Path(working_dir) / Path("/cloudflare_tunnel.env"),
+        env_path=Path(working_dir) / "cloudflare_tunnel.env",
     )
 
     docker_compose_up(path=f"{working_dir}/docker-compose.yml")
