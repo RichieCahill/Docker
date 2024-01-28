@@ -1,17 +1,13 @@
 ---
 version: "3"
-secrets:
-  config_json:
-    file: secrets.json
 services:
   arch_mirror:
-    build: /ZFS/Main/Docker/arch_mirror/
+    image: ubuntu/apache2:latest
     container_name: arch_mirror
     environment:
       - TZ=Etc/EST
     ports:
       - 800:80
-      - 873:873
     volumes:
       - /ZFS/Main/Mirror/:/data
       - /ZFS/Main/Docker/arch_mirror:/config
@@ -33,10 +29,12 @@ services:
     depends_on:
       - arch_mirror
     restart: unless-stopped
-  cloudflaretunnel:
-    container_name: CloudFlareTunnel
+  cloud_flare_tunnel:
+    container_name: cloud_flare_tunnel
     image: cloudflare/cloudflared:latest
-    command: tunnel run --token secret
+    command: tunnel run
+    env_file:
+      - cloudflare_tunnel.env
     depends_on:
       - haproxy
     restart: unless-stopped
