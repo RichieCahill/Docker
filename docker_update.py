@@ -15,7 +15,7 @@ def create_env_file(env_var_data: dict[str, str], env_path: Path) -> None:
     """
     env_vars = "\n".join([f"{key}={value}" for key, value in env_var_data.items()])
 
-    env_path.write_text(data=env_vars, encoding="utf-8")
+    env_path.write_text(data=env_vars, encoding="utf-8", newline="\n")
 
 
 def run_command(command: str) -> tuple[str, int]:
