@@ -10,7 +10,7 @@ services:
       - 800:80
     volumes:
       - /ZFS/Main/Mirror/:/data
-      - /ZFS/Main/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/
+      - /ZFS/Main/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/
     restart: unless-stopped
   haproxy:
     image: haproxy:latest
@@ -23,8 +23,8 @@ services:
         soft: 4096
         hard: 4096
     volumes:
-      - /ZFS/Main/Docker/Docker/jeeves-jr/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
-      - /ZFS/Main/Docker/Docker/jeeves-jr/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - /ZFS/Main/Docker/jeeves-jr/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
+      - /ZFS/Main/Docker/jeeves-jr/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     depends_on:
       - arch_mirror
     restart: unless-stopped

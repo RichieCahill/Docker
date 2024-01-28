@@ -80,7 +80,7 @@ def check_zfs(pool_name: str, data_set_name: str) -> None:
 
 def jeeves_jr_update() -> None:
     """Updates jeeves jr"""
-    working_dir = "/ZFS/Main/Docker/Docker/jeeves-jr"
+    working_dir = "/ZFS/Main/Docker/jeeves-jr"
 
     check_zfs(pool_name="Main", data_set_name="Docker")
 

@@ -37,6 +37,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
-            git -C /ZFS/Main/Docker/Docker pull
-            python3 /ZFS/Main/Docker/Docker/docker_update.py --machine_name jeeves-jr
+            git -C /ZFS/Main/Docker pull
+            python3 /ZFS/Main/Docker/docker_update.py --machine_name jeeves-jr
           envs: TUNNEL_TOKEN
