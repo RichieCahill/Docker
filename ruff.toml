@@ -5,13 +5,12 @@ line-length = 120
 
 
 ignore = [
-    "G004",   # Logging statement uses f-string (PERM: I use f-string in loogin)
-    "D400",   # First line should end with a period (PERM: I don't do this)
-    "D415",   # First line should end with a period (PERM: I don't do this)
-    "ANN101", # Missing type annotation for self in method (PERM: I don't do this)
-    "T201",   # Use of print statement (PERM: All this code is from experiment and testing)
-    "T203",   # Use of pprint statement (PERM: All this code is from experiment and testing)
-    "N999",   # module dose not used snake_case (TEMP: I don't want to rename evreythin at this time)
+    "ANN101", # PERM: this is only usefull in large classes (https://docs.astral.sh/ruff/rules/missing-type-self/)
+    "ANN102", # PERM: this is only usefull in large classes (https://docs.astral.sh/ruff/rules/missing-type-cls/)
+    "D400",   # PERM: I don't do this (https://docs.astral.sh/ruff/rules/ends-in-period/)
+    "D415",   # PERM: I don't do this (https://docs.astral.sh/ruff/rules/ends-in-punctuation/)
+    "G004",   # PERM: I use f-string in loogin (https://docs.astral.sh/ruff/rules/logging-f-string/)
+    "TD003",  # PERM: I don't have issur traking in this project (https://docs.astral.sh/ruff/rules/missing-todo-link/)
 ]
 
 [lint.pydocstyle]
