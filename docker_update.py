@@ -1,18 +1,19 @@
 """test"""
 import logging
-from os import getenv
+from os import environ, getenv
 from pathlib import Path
 from subprocess import run
 
 
 def create_env_file() -> None:
     """Create env file"""
-    env_path = Path("./cloudflare_tunnel.env")
+    env_path = Path("/ZFS/Main/Docker/Docker/cloudflare_tunnel.env")
 
-    env_path.write_text(
-        data=f"TUNNEL_TOKEN={getenv('JEEVES_JR_TUNNEL_TOKEN')}",
-        encoding="utf-8",
-    )
+    things: dict[str, str] = {"TUNNEL_TOKEN", environ["TUNNEL_TOKEN"]}
+
+    env_vars = "\n".join([f"{key}={value}" for key, value in things.items()])
+
+    env_path.write_text(data=env_vars, encoding="utf-8")
 
 
 def run_command(command: str) -> tuple[str, int]:
