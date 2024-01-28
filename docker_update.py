@@ -79,15 +79,16 @@ def check_zfs(pool_name: str, data_set_name: str) -> None:
 
 def jeeves_jr_update() -> None:
     """Updates jeeves jr"""
+    working_dir = "/ZFS/Main/Docker/Docker/jeeves-jr"
+
     check_zfs(pool_name="Main", data_set_name="Docker")
 
     create_env_file(
         env_var_data={"TUNNEL_TOKEN": environ["TUNNEL_TOKEN"]},
-        env_path=Path("/ZFS/Main/Docker/Docker/jeeves-jr/cloudflare_tunnel.env"),
+        env_path=Path(working_dir) / Path("/cloudflare_tunnel.env"),
     )
 
-    docker_compose_up(path="./jeeves-jr/docker-compose.yml")
-
+    docker_compose_up(path=f"{working_dir}/docker-compose.yml")
 
 
 def main() -> None:
