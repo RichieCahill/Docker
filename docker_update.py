@@ -10,9 +10,8 @@ def create_env_file() -> None:
     env_path = Path("./cloudflare_tunnel.env")
 
     env_path.write_text(
-        text=f"TUNNEL_TOKEN={getenv('JEEVES_JR_TUNNEL_TOKEN')}",
+        data=f"TUNNEL_TOKEN={getenv('JEEVES_JR_TUNNEL_TOKEN')}",
         encoding="utf-8",
-        if_exists=True,
     )
 
 
