@@ -23,9 +23,8 @@ services:
         soft: 4096
         hard: 4096
     volumes:
-      - /ZFS/Main/Docker/Haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
-      - /ZFS/Main/Docker/Haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-      - /ZFS/Main/Docker/Haproxy/API:/run/haproxy/
+      - /ZFS/Main/Docker/Docker/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
+      - /ZFS/Main/Docker/Docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     depends_on:
       - arch_mirror
     restart: unless-stopped
