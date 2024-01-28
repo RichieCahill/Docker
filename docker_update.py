@@ -1,17 +1,19 @@
 """test"""
+import argparse
 import logging
-from os import environ, getenv
+from os import environ
 from pathlib import Path
 from subprocess import run
 
 
-def create_env_file() -> None:
-    """Create env file"""
-    env_path = Path("/ZFS/Main/Docker/Docker/cloudflare_tunnel.env")
+def create_env_file(env_var_data: dict[str, str], env_path: Path) -> None:
+    """Creates an env file from a dict
 
-    things: dict[str, str] = {"TUNNEL_TOKEN", environ["TUNNEL_TOKEN"]}
-
-    env_vars = "\n".join([f"{key}={value}" for key, value in things.items()])
+    Args:
+        env_var_data (dict[str, str]): dict of env vars
+        env_path (Path): path to env file
+    """
+    env_vars = "\n".join([f"{key}={value}" for key, value in env_var_data.items()])
 
     env_path.write_text(data=env_vars, encoding="utf-8")
 
@@ -47,7 +49,10 @@ def main() -> None:
         handlers=[logging.FileHandler("debug.log"), logging.StreamHandler()],
     )
 
-    create_env_file()
+    create_env_file(
+        env_var_data={"TUNNEL_TOKEN": environ["TUNNEL_TOKEN"]},
+        env_path=Path("/ZFS/Main/Docker/Docker/cloudflare_tunnel.env"),
+    )
 
     # TODO(Richie): if zfs is up
 
