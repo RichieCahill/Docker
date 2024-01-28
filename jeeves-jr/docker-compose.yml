@@ -10,7 +10,7 @@ services:
       - 800:80
     volumes:
       - /ZFS/Main/Mirror/:/data
-      - /ZFS/Main/Docker/arch_mirror:/config
+      - /ZFS/Main/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/
     restart: unless-stopped
   haproxy:
     image: haproxy:latest
