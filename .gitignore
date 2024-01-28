@@ -128,6 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# envirment vars for docker compose
+.env
+
 # coustoms stuff
 test.*
 Test.*
@@ -135,11 +138,6 @@ test/
 Test/
 .vscode/
 secret.*
-*.tar.zst
-Videos/
-
-# For advent of code
-DAY*_Part*.txt
 
 cloudflare.pem
 Secret
