@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
   haproxy:
     image: haproxy:latest
-    container_name: Haproxy
+    container_name: haproxy
     user: "998:998"
     environment:
       - TZ=Etc/EST
@@ -30,8 +30,8 @@ services:
       - arch_mirror
     restart: unless-stopped
   cloud_flare_tunnel:
-    container_name: cloud_flare_tunnel
     image: cloudflare/cloudflared:latest
+    container_name: cloud_flare_tunnel
     command: tunnel run
     env_file:
       - cloudflare_tunnel.env
