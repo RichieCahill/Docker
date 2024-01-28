@@ -109,7 +109,7 @@ def main() -> None:
 
     logging.info(f"Starting docker update for {machine_name}")
 
-    machine_jobs = {"jeeves-jr": jeeves_jr_update()}
+    machine_jobs = {"jeeves-jr": jeeves_jr_update}
 
     machine_job = machine_jobs.get(machine_name)
 
