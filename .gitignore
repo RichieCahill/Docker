@@ -131,6 +131,9 @@ dmypy.json
 # envirment vars for docker compose
 *.env
 
+# cert files
+*.pem
+
 # coustoms stuff
 test.*
 Test.*
@@ -139,6 +142,5 @@ Test/
 .vscode/
 secret.*
 
-cloudflare.pem
 Secret
 .oh-my-zsh
