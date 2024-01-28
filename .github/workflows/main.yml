@@ -28,6 +28,9 @@ jobs:
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
+        env:
+          TUNNEL_TOKEN: ${{ secrets.JEEVES_JR_TUNNEL_TOKEN }}
+
         with:
           host: ${{ secrets.JEEVES_JR_IP }}
           username: ${{ secrets.SERVER_USER }}
@@ -36,6 +39,4 @@ jobs:
           script: |
             git -C /ZFS/Main/Docker/Docker pull
             python3 /ZFS/Main/Docker/Docker/docker_update.py
-          envs: |
-            TUNNEL_TOKEN=${{ secrets.JEEVES_JR_TUNNEL_TOKEN }}
-
+          envs: TUNNEL_TOKEN
