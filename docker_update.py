@@ -113,8 +113,10 @@ def main() -> None:
 
     machine_job = machine_jobs.get(machine_name)
 
-    if not machine_job:
-        error = f"{machine_name} is invalid or not supported"
+    logging.debug(f"{machine_job=}")
+
+    if machine_job is None:
+        error = f"'{machine_name}' is invalid or not supported"
         raise ValueError(error)
 
     machine_job()
