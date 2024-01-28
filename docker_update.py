@@ -1,6 +1,7 @@
 """test"""
 import argparse
 import logging
+import re
 from os import environ
 from pathlib import Path
 from subprocess import run
@@ -41,6 +42,24 @@ def docker_compose_up() -> None:
         raise ValueError(error)
 
 
+def check_zfs(pool_name: str, data_set_name: str) -> None:
+    """Checks if a zfs data set is up
+
+    Args:
+        pool_name (str): zfs pool name
+        data_set_name (str): zfs data set name
+    """
+    output, returncode = run_command(f"systemctl status ZFS-{pool_name}-{data_set_name}.mount")
+
+    if not re.compile(r"active \(mounted\)").search(output):
+        error = f"ZFS-{pool_name}-{data_set_name} is not up with output: {output}"
+        raise ValueError(error)
+
+    if returncode != 0:
+        error = f"systemctl status ZFS-{pool_name}-{data_set_name}.mount had returncode {returncode}: {output}"
+        raise ValueError(error)
+
+
 def main() -> None:
     """Main"""
     logging.basicConfig(
@@ -49,12 +68,13 @@ def main() -> None:
         handlers=[logging.FileHandler("debug.log"), logging.StreamHandler()],
     )
 
+    check_zfs(pool_name="Main", data_set_name="Docker")
+
     create_env_file(
         env_var_data={"TUNNEL_TOKEN": environ["TUNNEL_TOKEN"]},
         env_path=Path("/ZFS/Main/Docker/Docker/cloudflare_tunnel.env"),
     )
 
-    # TODO(Richie): if zfs is up
 
     # TODO(Richie): argparser for machine name
 
