@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # envirment vars for docker compose
-.env
+*.env
 
 # coustoms stuff
 test.*
