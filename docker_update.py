@@ -5,6 +5,7 @@ import re
 from os import environ
 from pathlib import Path
 from subprocess import run
+from typing import cast
 
 
 def create_env_file(env_var_data: dict[str, str], env_path: Path) -> None:
@@ -99,12 +100,26 @@ def main() -> None:
         handlers=[logging.FileHandler("debug.log"), logging.StreamHandler()],
     )
 
-    logging.info("Starting docker update")
+    parser = argparse.ArgumentParser(description="Docker Update")
+    parser.add_argument("--machine_name", help="Machine name")
 
-    # TODO(Richie): argparser for machine name
-    jeeves_jr_update()
+    args = parser.parse_args()
 
-    logging.info("docker update succeeded")
+    machine_name = cast(str, args.machine_name)
+
+    logging.info(f"Starting docker update for {machine_name}")
+
+    machine_jobs = {"jeeves-jr": jeeves_jr_update()}
+
+    machine_job = machine_jobs.get(machine_name)
+
+    if not machine_job:
+        error = f"{machine_name} is invalid or not supported"
+        raise ValueError(error)
+
+    machine_job()
+
+    logging.info(f"docker update succeeded for {machine_name}")
 
 
 if __name__ == "__main__":
