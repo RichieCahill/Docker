@@ -64,14 +64,9 @@ def check_zfs(pool_name: str, data_set_name: str) -> None:
     logging.info(f"Checking if ZFS-{pool_name}-{data_set_name} is up")
 
     output, returncode = run_command(f"systemctl status ZFS-{pool_name}-{data_set_name}.mount")
-    logging.debug(f"systemctl status ZFS-{pool_name}-{data_set_name}.mount output: {output} returncode: {returncode}")
 
     if not re.compile(r"active \(mounted\)").search(output):
-        error = f"ZFS-{pool_name}-{data_set_name} is not up with output: {output}"
-        raise ValueError(error)
-
-    if returncode != 0:
-        error = f"systemctl status ZFS-{pool_name}-{data_set_name}.mount had returncode {returncode}: {output}"
+        error = f"ZFS-{pool_name}-{data_set_name} is not up with output: {output} returncode: {returncode}"
         raise ValueError(error)
 
     logging.info(f"ZFS-{pool_name}-{data_set_name} is up")
