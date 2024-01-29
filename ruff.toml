@@ -13,6 +13,9 @@ ignore = [
     "TD003",  # PERM: I don't have issur traking in this project (https://docs.astral.sh/ruff/rules/missing-todo-link/)
 ]
 
+[lint.per-file-ignores]
+"tests/*" = ["S101"]
+
 [lint.pydocstyle]
 convention = "google"
 
