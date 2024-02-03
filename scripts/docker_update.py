@@ -100,6 +100,7 @@ def jeeves_update() -> None:
         for dataset in datasets:
             check_zfs(pool_name=pool, data_set_name=dataset)
 
+    path_test = Path("postgres") / "postgres-env"
     create_env_file(
         env_var_data={
             "POSTGRES_USER": environ["POSTGRES_USER"],
@@ -107,7 +108,7 @@ def jeeves_update() -> None:
             "POSTGRES_DB": "primary",
             "POSTGRES_INITDB_ARGS": '"--auth-host=scram-sha-256"',
         },
-        env_path=Path(working_dir) / "postgres-env",
+        env_path=Path(working_dir) / path_test,
     )
 
     compose_files = (
