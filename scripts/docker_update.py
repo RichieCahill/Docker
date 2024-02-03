@@ -92,7 +92,7 @@ def jeeves_update() -> None:
     working_dir = "/ZFS/Media/Docker/Docker/jeeves"
 
     pools_and_datasets = (
-        ("Media", ("Docker", "Influxdb", "Postgres")),
+        ("Media", ("Docker", "DataBases-Influxdb", "DataBases-Postgres")),
         ("Storage", ("Main",)),
     )
 
