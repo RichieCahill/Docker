@@ -88,7 +88,7 @@ def jeeves_jr_update() -> None:
 
 def jeeves_update() -> None:
     """Updates jeeves jr"""
-    working_dir = "/ZFS/Main/Docker/Docker/jeeves"
+    working_dir = "/ZFS/Media/Docker/Docker/jeeves"
 
     pools_and_datasets = (("Media", "Docker"),)
     for pool, dataset in pools_and_datasets:
