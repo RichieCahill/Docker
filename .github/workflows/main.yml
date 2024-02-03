@@ -55,5 +55,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.JEEVES_SSH_PORT }}
           script: |
-            git -C /ZFS/Main/Docker pull
-            python3 /ZFS/Media/Docker/scripts/docker_update.py --machine_name jeeves
+            git -C /ZFS/Media/Docker/Docker pull
+            python3 /ZFS/Media/Docker/Docker/scripts/docker_update.py --machine_name jeeves
