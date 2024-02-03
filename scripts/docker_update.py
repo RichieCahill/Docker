@@ -90,11 +90,18 @@ def jeeves_update() -> None:
     """Updates jeeves jr"""
     working_dir = "/ZFS/Media/Docker/Docker/jeeves"
 
-    pools_and_datasets = (("Media", "Docker"),)
+    pools_and_datasets = (
+        ("Media", "Docker"),
+        ("Storage", "Main"),
+    )
+
     for pool, dataset in pools_and_datasets:
         check_zfs(pool_name=pool, data_set_name=dataset)
 
-    compose_files = ("endlessh/docker-compose.yml",)
+    compose_files = (
+        "endlessh/docker-compose.yml",
+        "sccache/docker-compose.yml",
+    )
 
     for compose_file in compose_files:
         docker_compose_up(path=f"{working_dir}/{compose_file}")
