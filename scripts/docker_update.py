@@ -44,6 +44,7 @@ def docker_compose_up(path: str) -> None:
     """
     logging.info(f"Running docker compose up with path: {path}")
 
+    # TODO check if file was updated
     output, returncode = run_command(f"docker compose -f {path} up --force-recreate --build -d")
     logging.debug(f"docker compose up output: {output} returncode: {returncode}")
 
@@ -91,17 +92,19 @@ def jeeves_update() -> None:
     working_dir = "/ZFS/Media/Docker/Docker/jeeves"
 
     pools_and_datasets = (
-        ("Media", "Docker"),
-        ("Storage", "Main"),
+        ("Media", ("Docker", "Influxdb")),
+        ("Storage", ("Main",)),
     )
 
-    for pool, dataset in pools_and_datasets:
-        check_zfs(pool_name=pool, data_set_name=dataset)
+    for pool, datasets in pools_and_datasets:
+        for dataset in datasets:
+            check_zfs(pool_name=pool, data_set_name=dataset)
 
     compose_files = (
         "endlessh/docker-compose.yml",
         "sccache/docker-compose.yml",
         "freshrss/docker-compose.yml",
+        "influxdb/docker-compose.yml",
     )
 
     for compose_file in compose_files:
