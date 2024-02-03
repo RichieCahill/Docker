@@ -86,6 +86,20 @@ def jeeves_jr_update() -> None:
     docker_compose_up(path=f"{working_dir}/docker-compose.yml")
 
 
+def jeeves_update() -> None:
+    """Updates jeeves jr"""
+    working_dir = "/ZFS/Main/Docker/Docker/jeeves"
+
+    pools_and_datasets = (("Media", "Docker"),)
+    for pool, dataset in pools_and_datasets:
+        check_zfs(pool_name=pool, data_set_name=dataset)
+
+    compose_files = ("endlessh/docker-compose.yml",)
+
+    for compose_file in compose_files:
+        docker_compose_up(path=f"{working_dir}/{compose_file}")
+
+
 def main() -> None:
     """Main"""
     logging.basicConfig(
@@ -103,7 +117,10 @@ def main() -> None:
 
     logging.info(f"Starting docker update for {machine_name}")
 
-    machine_jobs = {"jeeves-jr": jeeves_jr_update}
+    machine_jobs = {
+        "jeeves-jr": jeeves_jr_update,
+        "jeeves": jeeves_update,
+    }
 
     machine_job = machine_jobs.get(machine_name)
 

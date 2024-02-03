@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - name: Test with pytest
         run: |
           pip install pytest pytest-cov
@@ -31,7 +31,7 @@ jobs:
           network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
           auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
 
-      - name: Deploy to server
+      - name: Deploy to jeeves-jr
         uses: appleboy/ssh-action@master
         env:
           TUNNEL_TOKEN: ${{ secrets.JEEVES_JR_TUNNEL_TOKEN }}
@@ -45,3 +45,15 @@ jobs:
             git -C /ZFS/Main/Docker pull
             python3 /ZFS/Main/Docker/scripts/docker_update.py --machine_name jeeves-jr
           envs: TUNNEL_TOKEN
+
+      - name: Deploy to jeeves
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: ${{ secrets.JEEVES_IP }}
+          username: ${{ secrets.JEEVES_SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.JEEVES_SSH_PORT }}
+          script: |
+            git -C /ZFS/Main/Docker pull
+            python3 /ZFS/Media/Docker/scripts/docker_update.py --machine_name jeeves

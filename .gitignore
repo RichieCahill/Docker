@@ -137,6 +137,9 @@ dmypy.json
 # pytest coverage report
 test-results.xml
 
+# Docker storage
+Storage/
+
 # coustoms stuff
 test.*
 Test.*
