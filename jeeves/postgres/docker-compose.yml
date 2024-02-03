@@ -1,0 +1,18 @@
+---
+version: "3"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: Postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - postgres-env
+    volumes:
+      - /ZFS/Media/DataBases/Postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -U r2r0m0c0 -d primary"
+      interval: 1s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped

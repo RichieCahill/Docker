@@ -92,13 +92,23 @@ def jeeves_update() -> None:
     working_dir = "/ZFS/Media/Docker/Docker/jeeves"
 
     pools_and_datasets = (
-        ("Media", ("Docker", "Influxdb")),
+        ("Media", ("Docker", "Influxdb", "Postgres")),
         ("Storage", ("Main",)),
     )
 
     for pool, datasets in pools_and_datasets:
         for dataset in datasets:
             check_zfs(pool_name=pool, data_set_name=dataset)
+
+    create_env_file(
+        env_var_data={
+            "POSTGRES_USER": environ["POSTGRES_USER"],
+            "POSTGRES_PASSWORD": environ["POSTGRES_PASSWORD"],
+            "POSTGRES_DB": "primary",
+            "POSTGRES_INITDB_ARGS": '"--auth-host=scram-sha-256"',
+        },
+        env_path=Path(working_dir) / "postgres-env",
+    )
 
     compose_files = (
         "endlessh/docker-compose.yml",
