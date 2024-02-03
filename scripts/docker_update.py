@@ -101,6 +101,7 @@ def jeeves_update() -> None:
     compose_files = (
         "endlessh/docker-compose.yml",
         "sccache/docker-compose.yml",
+        "freshrss/docker-compose.yml",
     )
 
     for compose_file in compose_files:
