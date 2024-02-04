@@ -3,13 +3,13 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "!jeeves-jr/**"
+    paths-ignore:
+      - "jeeves-jr/**"
   pull_request:
     branches:
       - main
-    paths:
-      - "!jeeves-jr/**"
+    paths-ignore:
+      - "jeeves-jr/**"
 
 jobs:
   build:
