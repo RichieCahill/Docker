@@ -1,0 +1,50 @@
+---
+version: "3"
+services:
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: Grafana
+    user: "998:998"
+    volumes:
+      - /ZFS/Media/Docker/Docker/Storage/grafana:/var/lib/grafana
+    restart: unless-stopped
+  dnd_file_server:
+    image: ubuntu/apache2:latest
+    container_name: dnd_file_server
+    volumes:
+      - /ZFS/Media/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/
+      - /ZFS/Storage/Main/Table_Top/:/data
+    restart: unless-stopped
+  arch_mirror:
+    image: ubuntu/apache2:latest
+    container_name: arch_mirror
+    volumes:
+      - /ZFS/Media/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/
+      - /ZFS/Media/Mirror/:/data
+    ports:
+      - 800:80
+    restart: unless-stopped
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    user: "998:998"
+    environment:
+      - TZ=Etc/EST
+    volumes:
+      - /ZFS/Media/Docker/Docker/jeeves/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
+      - /ZFS/Media/Docker/Docker/jeeves/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - /ZFS/Media/Docker/Docker/jeeves/haproxy/API:/run/haproxy/
+    depends_on:
+      - grafana
+      - arch_mirror
+      - dnd_file_server
+    restart: unless-stopped
+  cloud_flare_tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloud_flare_tunnel
+    command: tunnel run
+    env_file:
+      - cloudflare_tunnel.env
+    depends_on:
+      - haproxy
+    restart: unless-stopped

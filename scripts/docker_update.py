@@ -5,6 +5,7 @@ import re
 from os import environ
 from pathlib import Path
 from subprocess import run
+from typing import cast
 
 
 def create_env_file(env_var_data: dict[str, str], env_path: Path) -> None:
@@ -100,16 +101,27 @@ def jeeves_update() -> None:
         for dataset in datasets:
             check_zfs(pool_name=pool, data_set_name=dataset)
 
-    path_test = Path("postgres") / "postgres-env"
-    create_env_file(
-        env_var_data={
-            "POSTGRES_USER": environ["POSTGRES_USER"],
-            "POSTGRES_PASSWORD": environ["POSTGRES_PASSWORD"],
-            "POSTGRES_DB": "primary",
-            "POSTGRES_INITDB_ARGS": '"--auth-host=scram-sha-256"',
+    #  TODO: make an object for this
+    paths_and_content = (
+        {
+            "path": Path("postgres") / "postgres-env",
+            "content": {
+                "POSTGRES_USER": environ["POSTGRES_USER"],
+                "POSTGRES_PASSWORD": environ["POSTGRES_PASSWORD"],
+                "POSTGRES_DB": "primary",
+                "POSTGRES_INITDB_ARGS": '"--auth-host=scram-sha-256"',
+            },
         },
-        env_path=Path(working_dir) / path_test,
+        {
+            "path": Path("web") / "cloudflare_tunnel.env",
+            "content": {"TUNNEL_TOKEN": environ["TUNNEL_TOKEN"]},
+        },
     )
+    for path_and_content in paths_and_content:
+        create_env_file(
+            env_var_data=cast(dict[str, str], path_and_content["content"]),
+            env_path=Path(working_dir) / cast(Path, path_and_content["path"]),
+        )
 
     compose_files = (
         "endlessh/docker-compose.yml",
