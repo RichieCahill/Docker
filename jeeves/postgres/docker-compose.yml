@@ -7,7 +7,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - postgres-env
+      - postgres.env
     volumes:
       - /ZFS/Media/DataBases/Postgres:/var/lib/postgresql/data
     healthcheck:

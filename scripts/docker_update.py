@@ -104,7 +104,7 @@ def jeeves_update() -> None:
     #  TODO: make an object for this
     paths_and_content = (
         {
-            "path": Path("postgres") / "postgres-env",
+            "path": Path("postgres") / "postgres.env",
             "content": {
                 "POSTGRES_USER": environ["POSTGRES_USER"],
                 "POSTGRES_PASSWORD": environ["POSTGRES_PASSWORD"],
