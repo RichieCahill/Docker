@@ -31,9 +31,9 @@ services:
     environment:
       - TZ=Etc/EST
     volumes:
-      - /ZFS/Media/Docker/Docker/jeeves/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
-      - /ZFS/Media/Docker/Docker/jeeves/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-      - /ZFS/Media/Docker/Docker/jeeves/haproxy/API:/run/haproxy/
+      - /ZFS/Media/Docker/Docker/jeeves/web/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
+      - /ZFS/Media/Docker/Docker/jeeves/web/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - /ZFS/Media/Docker/Docker/jeeves/web/haproxy/API:/run/haproxy/
     depends_on:
       - grafana
       - arch_mirror
