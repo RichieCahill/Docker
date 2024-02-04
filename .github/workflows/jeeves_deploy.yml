@@ -3,13 +3,17 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "jeeves-jr/**"
+    paths:
+      - "jeeves/**"
+      - ".github/workflows/jeeves_deploy.yml"
+      - "templates/**"
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - "jeeves-jr/**"
+    paths:
+      - "jeeves/**"
+      - ".github/workflows/jeeves_deploy.yml"
+      - "templates/**"
 
 jobs:
   build:
