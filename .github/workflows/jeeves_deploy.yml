@@ -40,6 +40,7 @@ jobs:
         env:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          TUNNEL_TOKEN: ${{ secrets.JEEVES_TUNNEL_TOKEN }}
 
         with:
           host: ${{ secrets.JEEVES_IP }}
@@ -49,4 +50,4 @@ jobs:
           script: |
             git -C /ZFS/Media/Docker/Docker pull
             python3 /ZFS/Media/Docker/Docker/scripts/docker_update.py --machine_name jeeves
-          envs: POSTGRES_USER, POSTGRES_PASSWORD
+          envs: POSTGRES_USER, POSTGRES_PASSWORD, TUNNEL_TOKEN
