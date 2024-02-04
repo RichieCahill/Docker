@@ -3,9 +3,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "!jeeves/**"
   pull_request:
     branches:
       - main
+    paths:
+      - "!jeeves/**"
 
 jobs:
   build:
@@ -45,19 +49,3 @@ jobs:
             git -C /ZFS/Main/Docker pull
             python3 /ZFS/Main/Docker/scripts/docker_update.py --machine_name jeeves-jr
           envs: TUNNEL_TOKEN
-
-      - name: Deploy to jeeves
-        uses: appleboy/ssh-action@master
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-
-        with:
-          host: ${{ secrets.JEEVES_IP }}
-          username: ${{ secrets.JEEVES_SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.JEEVES_SSH_PORT }}
-          script: |
-            git -C /ZFS/Media/Docker/Docker pull
-            python3 /ZFS/Media/Docker/Docker/scripts/docker_update.py --machine_name jeeves
-          envs: POSTGRES_USER, POSTGRES_PASSWORD

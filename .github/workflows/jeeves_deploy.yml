@@ -1,0 +1,51 @@
+# Multi line secret ma not work in the gihthub actions vscode interface
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "!jeeves-jr/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "!jeeves-jr/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Test with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest --doctest-modules --junitxml=junit/test-results.xml --cov=./scripts --cov-report=xml --cov-report=html --cov-branch
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: ZeroTier
+        uses: zerotier/github-action@v1
+        with:
+          network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
+          auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
+
+      - name: Deploy to jeeves-jr
+        uses: appleboy/ssh-action@master
+        env:
+          TUNNEL_TOKEN: ${{ secrets.JEEVES_JR_TUNNEL_TOKEN }}
+
+        with:
+          host: ${{ secrets.JEEVES_JR_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          script: |
+            git -C /ZFS/Main/Docker pull
+            python3 /ZFS/Main/Docker/scripts/docker_update.py --machine_name jeeves-jr
+          envs: TUNNEL_TOKEN
