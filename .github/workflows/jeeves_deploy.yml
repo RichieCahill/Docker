@@ -35,17 +35,18 @@ jobs:
           network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
           auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
 
-      - name: Deploy to jeeves-jr
+      - name: Deploy to jeeves
         uses: appleboy/ssh-action@master
         env:
-          TUNNEL_TOKEN: ${{ secrets.JEEVES_JR_TUNNEL_TOKEN }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
         with:
-          host: ${{ secrets.JEEVES_JR_IP }}
-          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.JEEVES_IP }}
+          username: ${{ secrets.JEEVES_SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_SSH_PORT }}
+          port: ${{ secrets.JEEVES_SSH_PORT }}
           script: |
-            git -C /ZFS/Main/Docker pull
-            python3 /ZFS/Main/Docker/scripts/docker_update.py --machine_name jeeves-jr
-          envs: TUNNEL_TOKEN
+            git -C /ZFS/Media/Docker/Docker pull
+            python3 /ZFS/Media/Docker/Docker/scripts/docker_update.py --machine_name jeeves
+          envs: POSTGRES_USER, POSTGRES_PASSWORD
