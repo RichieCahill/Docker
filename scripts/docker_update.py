@@ -5,10 +5,9 @@ import re
 from os import environ
 from pathlib import Path
 from subprocess import run
-from typing import cast
 
 
-def create_env_file(env_var_data: dict[str, str], env_path: Path) -> None:
+def create_env_file(env_var_data: str, env_path: Path) -> None:
     """Creates an env file from a dict
 
     Args:
@@ -17,11 +16,9 @@ def create_env_file(env_var_data: dict[str, str], env_path: Path) -> None:
     """
     logging.info(f"Creating env file at path: {env_path}")
 
-    env_vars = "\n".join([f"{key}={value}" for key, value in env_var_data.items()])
+    logging.debug(f"{env_var_data=}")
 
-    logging.debug(f"{env_vars=}")
-
-    env_path.write_text(data=f"{env_vars}\n", encoding="utf-8")
+    env_path.write_text(data=env_var_data, encoding="utf-8")
 
 
 def run_command(command: str) -> tuple[str, int]:
@@ -81,7 +78,7 @@ def jeeves_jr_update() -> None:
     check_zfs(pool_name="Main", data_set_name="Docker")
 
     create_env_file(
-        env_var_data={"TUNNEL_TOKEN": environ["TUNNEL_TOKEN"]},
+        env_var_data=f"TUNNEL_TOKEN={environ['TUNNEL_TOKEN']}\n",
         env_path=Path(working_dir) / "cloudflare_tunnel.env",
     )
 
@@ -101,27 +98,19 @@ def jeeves_update() -> None:
         for dataset in datasets:
             check_zfs(pool_name=pool, data_set_name=dataset)
 
-    #  TODO: make an object for this
-    paths_and_content = (
-        {
-            "path": Path("postgres") / "postgres.env",
-            "content": {
-                "POSTGRES_USER": environ["POSTGRES_USER"],
-                "POSTGRES_PASSWORD": environ["POSTGRES_PASSWORD"],
-                "POSTGRES_DB": "primary",
-                "POSTGRES_INITDB_ARGS": '"--auth-host=scram-sha-256"',
-            },
-        },
-        {
-            "path": Path("web") / "cloudflare_tunnel.env",
-            "content": {"TUNNEL_TOKEN": environ["TUNNEL_TOKEN"]},
-        },
+    create_env_file(
+        env_path=Path(working_dir) / Path("postgres") / "postgres.env",
+        env_var_data=(
+            f"POSTGRES_USER={environ['POSTGRES_USER']}\n"
+            f"POSTGRES_PASSWORD={environ['POSTGRES_PASSWORD']}\n"
+            "POSTGRES_DB=primary\n"
+            'POSTGRES_INITDB_ARGS="--auth-host=scram-sha-256"\n'
+        ),
     )
-    for path_and_content in paths_and_content:
-        create_env_file(
-            env_var_data=cast(dict[str, str], path_and_content["content"]),
-            env_path=Path(working_dir) / cast(Path, path_and_content["path"]),
-        )
+    create_env_file(
+        env_path=Path(working_dir) / Path("web") / "cloudflare_tunnel.env",
+        env_var_data=f"TUNNEL_TOKEN={environ['TUNNEL_TOKEN']}\n",
+    )
 
     compose_files = (
         "endlessh/docker-compose.yml",
