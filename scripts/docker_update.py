@@ -113,7 +113,7 @@ def jeeves_update() -> None:
         env_var_data=f"TUNNEL_TOKEN={environ['TUNNEL_TOKEN']}\n",
     )
     create_env_file(
-        env_path=Path(working_dir) / Path("postgres") / "postgres.env",
+        env_path=Path(working_dir) / Path("internal") / "qbitvpn.env",
         env_var_data=(
             f"PUID=998"
             f"PGID=100"
@@ -135,12 +135,12 @@ def jeeves_update() -> None:
 
     compose_files = (
         "endlessh/docker-compose.yml",
-        "sccache/docker-compose.yml",
         "freshrss/docker-compose.yml",
         "influxdb/docker-compose.yml",
-        "postgres/docker-compose.yml",
-        "web/docker-compose.yml",
         "internal/docker-compose.yml",
+        "postgres/docker-compose.yml",
+        "sccache/docker-compose.yml",
+        "web/docker-compose.yml",
     )
 
     for compose_file in compose_files:

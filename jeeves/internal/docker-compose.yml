@@ -32,7 +32,7 @@ services:
     environment:
       - WEBUI_PORT=8081
     env_file:
-      - postgres.env
+      - qbitvpn.env
     volumes:
       - /ZFS/Media/Docker/Docker/Storage/QbitVPN:/config
       - /ZFS/Torenting/QbitVPN/:/data
