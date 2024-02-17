@@ -138,6 +138,9 @@ def jeeves_update() -> None:
         "sccache/docker-compose.yml",
         "freshrss/docker-compose.yml",
         "influxdb/docker-compose.yml",
+        "postgres/docker-compose.yml",
+        "web/docker-compose.yml",
+        "internal/docker-compose.yml",
     )
 
     for compose_file in compose_files:
