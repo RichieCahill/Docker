@@ -115,21 +115,21 @@ def jeeves_update() -> None:
     create_env_file(
         env_path=Path(working_dir) / Path("internal") / "qbitvpn.env",
         env_var_data=(
-            f"PUID=998"
-            f"PGID=100"
-            "VPN_ENABLED=yes"
-            f"VPN_USER={environ['PIA_USERNAME']}"
-            f"VPN_PASS={environ['PIA_PASSWORD']}"
-            "VPN_PROV=pia"
-            "VPN_CLIENT=openvpn"
-            "STRICT_PORT_FORWARD=yes"
-            "ENABLE_PRIVOXY=yes"
-            f"LAN_NETWORK={environ['LAN_NETWORK']}/24"
-            "NAME_SERVERS=1.1.1.1,8.8.8.8,8.8.4.4"
-            "UMASK=000"
-            "DEBUG=false"
-            "DELUGE_DAEMON_LOG_LEVEL=debug"
-            "DELUGE_WEB_LOG_LEVEL=debug"
+            f"PUID=998\n"
+            f"PGID=100\n"
+            "VPN_ENABLED=yes\n"
+            f"VPN_USER={environ['PIA_USERNAME']}\n"
+            f"VPN_PASS={environ['PIA_PASSWORD']}\n"
+            "VPN_PROV=pia\n"
+            "VPN_CLIENT=openvpn\n"
+            "STRICT_PORT_FORWARD=yes\n"
+            "ENABLE_PRIVOXY=yes\n"
+            f"LAN_NETWORK={environ['LAN_NETWORK']}/24\n"
+            "NAME_SERVERS=1.1.1.1,8.8.8.8,8.8.4.4\n"
+            "UMASK=000\n"
+            "DEBUG=false\n"
+            "DELUGE_DAEMON_LOG_LEVEL=debug\n"
+            "DELUGE_WEB_LOG_LEVEL=debug\n"
         ),
     )
 
