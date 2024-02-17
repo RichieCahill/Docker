@@ -12,7 +12,7 @@ from scripts.docker_update import check_zfs, create_env_file, docker_compose_up,
 
 def test_create_env_file(tmp_path: Path) -> None:
     """Test create_env_file"""
-    env_var_data = {"VAR1": "value1", "VAR2": "value2", "VAR3": "value3"}
+    env_var_data = "VAR1=value1\nVAR2=value2\nVAR3=value3\n"
     env_path = tmp_path / "test.env"
 
     create_env_file(env_var_data, env_path)
@@ -131,7 +131,7 @@ def test_jeeves_jr_update_success() -> None:
         mock_check_zfs.assert_called_once_with(pool_name="Main", data_set_name="Docker")
 
         env_path = Path("/ZFS/Main/Docker/jeeves-jr/cloudflare_tunnel.env")
-        env_var_data = {"TUNNEL_TOKEN": "test_token"}
+        env_var_data = "TUNNEL_TOKEN=test_token\n"
         mock_create_env_file.assert_called_once_with(env_var_data=env_var_data, env_path=env_path)
 
         mock_docker_compose_up.assert_called_once_with(path="/ZFS/Main/Docker/jeeves-jr/docker-compose.yml")
