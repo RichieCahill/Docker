@@ -91,7 +91,8 @@ def jeeves_update() -> None:
 
     pools_and_datasets = (
         ("Media", ("Docker", "DataBases-Influxdb", "DataBases-Postgres")),
-        ("Storage", ("Main",)),
+        ("Storage", ("Main", "Plex")),
+        ("Torenting", ("QbitVPN", "Qbit")),
     )
 
     for pool, datasets in pools_and_datasets:
@@ -110,6 +111,26 @@ def jeeves_update() -> None:
     create_env_file(
         env_path=Path(working_dir) / Path("web") / "cloudflare_tunnel.env",
         env_var_data=f"TUNNEL_TOKEN={environ['TUNNEL_TOKEN']}\n",
+    )
+    create_env_file(
+        env_path=Path(working_dir) / Path("postgres") / "postgres.env",
+        env_var_data=(
+            f"PUID=998"
+            f"PGID=100"
+            "VPN_ENABLED=yes"
+            f"VPN_USER={environ['PIA_USERNAME']}"
+            f"VPN_PASS={environ['PIA_PASSWORD']}"
+            "VPN_PROV=pia"
+            "VPN_CLIENT=openvpn"
+            "STRICT_PORT_FORWARD=yes"
+            "ENABLE_PRIVOXY=yes"
+            f"LAN_NETWORK={environ['LAN_NETWORK']}/24"
+            "NAME_SERVERS=1.1.1.1,8.8.8.8,8.8.4.4"
+            "UMASK=000"
+            "DEBUG=false"
+            "DELUGE_DAEMON_LOG_LEVEL=debug"
+            "DELUGE_WEB_LOG_LEVEL=debug"
+        ),
     )
 
     compose_files = (

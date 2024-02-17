@@ -1,0 +1,89 @@
+---
+version: "3"
+services:
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent:latest
+    container_name: qbit
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=America/New_York
+      - WEBUI_PORT=8082
+    volumes:
+      - /ZFS/Media/Docker/Docker/Storage/Qbit:/config
+      - /ZFS/Torenting/Qbit/:/data
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8082:8082
+      - 29432:29432
+    restart: unless-stopped
+  qbitvpn:
+    image: binhex/arch-qbittorrentvpn:latest
+    container_name: qbitvpn
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 6882:6881
+      - 6882:6881/udp
+      - 8081:8081
+      - 8118:8118
+    environment:
+      - WEBUI_PORT=8081
+    env_file:
+      - postgres.env
+    volumes:
+      - /ZFS/Media/Docker/Docker/Storage/QbitVPN:/config
+      - /ZFS/Torenting/QbitVPN/:/data
+      - /etc/localtime:/etc/localtime:ro
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=America/New_York
+    volumes:
+      - /ZFS/Media/Docker/Docker/Storage/Prowlarr:/config
+    restart: unless-stopped
+  radarr:
+    image: ghcr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=America/New_York
+    volumes:
+      - /ZFS/Media/Docker/Docker/Storage/Radarr:/config
+      - /ZFS/Storage/Plex/Movies:/movies
+      - /ZFS/Torenting/QbitVPN:/data
+    restart: unless-stopped
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=America/New_York
+    volumes:
+      - /ZFS/Media/Docker/Docker/Storage/Sonarr:/config
+      - /ZFS/Storage/Plex/TV:/tv
+      - /ZFS/Torenting/QbitVPN:/data
+    restart: unless-stopped
+  internal_haproxy:
+    image: haproxy:latest
+    container_name: internal_haproxy
+    user: "998:998"
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - /ZFS/Media/Docker/Docker/jeeves/internal/cloudflare.pem:/etc/ssl/certs/cloudflare.pem
+      - /ZFS/Media/Docker/Docker/jeeves/internal/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - prowlarr
+      - radarr
+      - qbittorrent
+      - qbitvpn
+    restart: unless-stopped
