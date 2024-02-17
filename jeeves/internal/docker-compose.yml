@@ -10,7 +10,7 @@ services:
       - TZ=America/New_York
       - WEBUI_PORT=8082
     volumes:
-      - /ZFS/Media/Docker/Docker/Storage/Qbit:/config
+      - /ZFS/Media/Docker/Docker/Storage/qbit:/config
       - /ZFS/Torenting/Qbit/:/data
     ports:
       - 6881:6881
@@ -34,7 +34,7 @@ services:
     env_file:
       - qbitvpn.env
     volumes:
-      - /ZFS/Media/Docker/Docker/Storage/QbitVPN:/config
+      - /ZFS/Media/Docker/Docker/Storage/qbitvpn:/config
       - /ZFS/Torenting/QbitVPN/:/data
       - /etc/localtime:/etc/localtime:ro
   prowlarr:
@@ -45,7 +45,7 @@ services:
       - PGID=100
       - TZ=America/New_York
     volumes:
-      - /ZFS/Media/Docker/Docker/Storage/Prowlarr:/config
+      - /ZFS/Media/Docker/Docker/Storage/prowlarr:/config
     restart: unless-stopped
   radarr:
     image: ghcr.io/linuxserver/radarr:latest
@@ -55,7 +55,7 @@ services:
       - PGID=100
       - TZ=America/New_York
     volumes:
-      - /ZFS/Media/Docker/Docker/Storage/Radarr:/config
+      - /ZFS/Media/Docker/Docker/Storage/radarr:/config
       - /ZFS/Storage/Plex/Movies:/movies
       - /ZFS/Torenting/QbitVPN:/data
     restart: unless-stopped
@@ -67,7 +67,7 @@ services:
       - PGID=100
       - TZ=America/New_York
     volumes:
-      - /ZFS/Media/Docker/Docker/Storage/Sonarr:/config
+      - /ZFS/Media/Docker/Docker/Storage/sonarr:/config
       - /ZFS/Storage/Plex/TV:/tv
       - /ZFS/Torenting/QbitVPN:/data
     restart: unless-stopped
