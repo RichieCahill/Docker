@@ -53,7 +53,7 @@ jobs:
 
         with:
           host: ${{ secrets.JEEVES_IP }}
-          username: ${{ secrets.JEEVES_SERVER_USER }}
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.JEEVES_SSH_PORT }}
           script: |
