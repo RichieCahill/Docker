@@ -133,6 +133,7 @@ def jeeves_update() -> None:
         ),
     )
 
+    logging.debug(tuple(Path(working_dir).rglob("docker-compose.yml")))
     for compose_file in Path(working_dir).rglob("docker-compose.yml"):
         docker_compose_up(path=compose_file.absolute())
 
