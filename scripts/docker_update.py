@@ -133,18 +133,8 @@ def jeeves_update() -> None:
         ),
     )
 
-    compose_files = (
-        "endlessh/docker-compose.yml",
-        "freshrss/docker-compose.yml",
-        "influxdb/docker-compose.yml",
-        "internal/docker-compose.yml",
-        "postgres/docker-compose.yml",
-        "sccache/docker-compose.yml",
-        "web/docker-compose.yml",
-    )
-
-    for compose_file in compose_files:
-        docker_compose_up(path=f"{working_dir}/{compose_file}")
+    for compose_file in Path(working_dir).rglob("docker-compose.yml"):
+        docker_compose_up(path=compose_file.absolute())
 
 
 def main() -> None:
