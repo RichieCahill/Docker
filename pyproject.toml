@@ -1,25 +1,29 @@
 [tool.poetry]
-name = "object_mapper"
+name = "arch_mirror_updater"
 version = "0.1.0"
 description = ""
 authors = ["Richie Cahill <Richie@tmmworkshop.com>"]
 license = "MIT"
 readme = "README.md"
 
-[tool.poetry.arch_mirror_updater.dependencies]
-python = ">3.12"
+[tool.poetry.dependencies]
+python = ">3.11"
+
+[tool.poetry.group.arch_mirror_updater.dependencies]
 polars = "*"
 apscheduler = "*"
 requests = "*"
-
 
 [tool.poetry.group.dev.dependencies]
 mypy = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-mock = "*"
-ruff = "*"
+ruff = "0.4.3"
 
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 
