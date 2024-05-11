@@ -1,4 +1,4 @@
-"""test"""
+"""test."""
 import argparse
 import logging
 import re
@@ -8,7 +8,7 @@ from subprocess import run
 
 
 def create_env_file(env_var_data: str, env_path: Path) -> None:
-    """Creates an env file from a dict
+    """Creates an env file from a dict.
 
     Args:
         env_var_data (dict[str, str]): dict of env vars
@@ -22,7 +22,7 @@ def create_env_file(env_var_data: str, env_path: Path) -> None:
 
 
 def run_command(command: str) -> tuple[str, int]:
-    """Runs a command and returns the output and return code
+    """Runs a command and returns the output and return code.
 
     Args:
         command (str): command to run
@@ -35,7 +35,7 @@ def run_command(command: str) -> tuple[str, int]:
 
 
 def docker_compose_up(path: str) -> None:
-    """Runs docker compose up
+    """Runs docker compose up.
 
     Args:
         path (str): path to docker compose file
@@ -54,7 +54,7 @@ def docker_compose_up(path: str) -> None:
 
 
 def check_zfs(pool_name: str, data_set_name: str) -> None:
-    """Checks if a zfs data set is up
+    """Checks if a zfs data set is up.
 
     Args:
         pool_name (str): zfs pool name
@@ -72,7 +72,7 @@ def check_zfs(pool_name: str, data_set_name: str) -> None:
 
 
 def jeeves_jr_update() -> None:
-    """Updates jeeves jr"""
+    """Updates jeeves jr."""
     working_dir = "/ZFS/Main/Docker/jeeves-jr"
 
     check_zfs(pool_name="Main", data_set_name="Docker")
@@ -86,7 +86,7 @@ def jeeves_jr_update() -> None:
 
 
 def jeeves_update() -> None:
-    """Updates jeeves jr"""
+    """Updates jeeves jr."""
     working_dir = "/ZFS/Media/Docker/Docker/jeeves"
 
     pools_and_datasets = (
@@ -135,11 +135,11 @@ def jeeves_update() -> None:
 
     logging.debug(tuple(Path(working_dir).rglob("docker-compose.yml")))
     for compose_file in Path(working_dir).rglob("docker-compose.yml"):
-        docker_compose_up(path=compose_file.absolute())
+        docker_compose_up(path=compose_file.absolute().as_posix())
 
 
 def main() -> None:
-    """Main"""
+    """Main."""
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s - %(levelname)s - %(message)s",

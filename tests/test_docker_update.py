@@ -11,7 +11,7 @@ from scripts.docker_update import check_zfs, create_env_file, docker_compose_up,
 
 
 def test_create_env_file(tmp_path: Path) -> None:
-    """Test create_env_file"""
+    """Test create_env_file."""
     env_var_data = "VAR1=value1\nVAR2=value2\nVAR3=value3\n"
     env_path = tmp_path / "test.env"
 
@@ -22,7 +22,7 @@ def test_create_env_file(tmp_path: Path) -> None:
 
 
 def test_run_command() -> None:
-    """Test run_command"""
+    """Test run_command."""
     with patch("scripts.docker_update.run") as mock_run:
         command = "ls -l"
         stdout = "output"
@@ -36,7 +36,7 @@ def test_run_command() -> None:
 
 
 def test_docker_compose_up_success() -> None:
-    """Test docker_compose_up when docker compose up succeeds"""
+    """Test docker_compose_up when docker compose up succeeds."""
     path = "/path/to/docker-compose.yml"
     command = f"docker compose -f {path} up --force-recreate --build -d"
     output = "output"
@@ -57,7 +57,7 @@ def test_docker_compose_up_success() -> None:
 
 
 def test_docker_compose_up_failure() -> None:
-    """Test docker_compose_up when docker compose up fails"""
+    """Test docker_compose_up when docker compose up fails."""
     path = "/path/to/docker-compose.yml"
     command = f"docker compose -f {path} up --force-recreate --build -d"
     output = "error output"
@@ -78,7 +78,7 @@ def test_docker_compose_up_failure() -> None:
 
 
 def test_check_zfs_success() -> None:
-    """Test check_zfs when ZFS data set is up"""
+    """Test check_zfs when ZFS data set is up."""
     pool_name = "my_pool"
     data_set_name = "my_data_set"
     command = f"systemctl status ZFS-{pool_name}-{data_set_name}.mount"
@@ -98,7 +98,7 @@ def test_check_zfs_success() -> None:
 
 
 def test_check_zfs_failure_not_up() -> None:
-    """Test check_zfs when ZFS data set is not up"""
+    """Test check_zfs when ZFS data set is not up."""
     pool_name = "my_pool"
     data_set_name = "my_data_set"
     command = f"systemctl status ZFS-{pool_name}-{data_set_name}.mount"
@@ -119,7 +119,7 @@ def test_check_zfs_failure_not_up() -> None:
 
 
 def test_jeeves_jr_update_success() -> None:
-    """Test jeeves_jr_update when all steps succeed"""
+    """Test jeeves_jr_update when all steps succeed."""
     with (
         patch("scripts.docker_update.check_zfs") as mock_check_zfs,
         patch("scripts.docker_update.create_env_file") as mock_create_env_file,
@@ -138,7 +138,7 @@ def test_jeeves_jr_update_success() -> None:
 
 
 def test_jeeves_jr_update_check_zfs_failure() -> None:
-    """Test jeeves_jr_update when check_zfs fails"""
+    """Test jeeves_jr_update when check_zfs fails."""
     with patch("scripts.docker_update.check_zfs") as mock_check_zfs:
         mock_check_zfs.side_effect = ValueError("ZFS data set is not up")
 
@@ -149,7 +149,7 @@ def test_jeeves_jr_update_check_zfs_failure() -> None:
 
 
 def test_jeeves_jr_update_create_env_file_failure() -> None:
-    """Test jeeves_jr_update when create_env_file fails"""
+    """Test jeeves_jr_update when create_env_file fails."""
     with (
         patch("scripts.docker_update.check_zfs"),
         patch("scripts.docker_update.create_env_file") as mock_create_env_file,
@@ -164,7 +164,7 @@ def test_jeeves_jr_update_create_env_file_failure() -> None:
 
 
 def test_jeeves_jr_update_docker_compose_up_failure() -> None:
-    """Test jeeves_jr_update when docker_compose_up fails"""
+    """Test jeeves_jr_update when docker_compose_up fails."""
     with (
         patch("scripts.docker_update.check_zfs"),
         patch("scripts.docker_update.create_env_file"),
@@ -181,7 +181,7 @@ def test_jeeves_jr_update_docker_compose_up_failure() -> None:
 
 
 def test_main_valid_machine_name() -> None:
-    """Test main function with a valid machine name"""
+    """Test main function with a valid machine name."""
     machine_name = "jeeves-jr"
 
     with (
@@ -196,7 +196,7 @@ def test_main_valid_machine_name() -> None:
 
 
 def test_main_invalid_machine_name() -> None:
-    """Test main function with an invalid machine name"""
+    """Test main function with an invalid machine name."""
     with (
         patch("sys.argv", ["main", "--machine_name", "monkey-d-luffy"]),
         pytest.raises(ValueError, match="'monkey-d-luffy' is invalid or not supported"),
