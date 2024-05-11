@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "object_mapper"
+version = "0.1.0"
+description = ""
+authors = ["Richie Cahill <Richie@tmmworkshop.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.arch_mirror_updater.dependencies]
+python = ">3.12"
+polars = "*"
+apscheduler = "*"
+requests = "*"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+ruff = "*"
+
+
+[tool.ruff]
+
+select = ["ALL"]
+target-version = "py311"
+
+line-length = 120
+
+
+ignore = [
+    "ANN101", # perm: This is deprecated (https://docs.astral.sh/ruff/rules/missing-type-self/)
+    "ANN102", # perm: This is deprecated (https://docs.astral.sh/ruff/rules/missing-type-cls/)
+    "G004",   # perm: This is a preforms nit  (https://docs.astral.sh/ruff/rules/logging-f-string/)
+    "TD003",  # perm: There isn't issue tracking in this project (https://docs.astral.sh/ruff/rules/missing-todo-link/)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-builtins]
+builtins-ignorelist = ["id"]
